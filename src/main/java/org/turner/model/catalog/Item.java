@@ -1,23 +1,17 @@
 package org.turner.model.catalog;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import java.util.List;
 
 /**
  *
  * @author turner
  */
-@XStreamAlias("pgterms:ebook")
 public class Item {
   
   private Integer catalogId; // set based on the filename.
   
-  @XStreamAlias("dcterms:title")
   private List<String> title; // Retrieved from xml catalog files.
 
-  @XStreamAlias("pgterms:agent")
-  @XStreamImplicit
   private List<Author> author; // Retrieved from xml cataolog files.
   private String mirrorUrl; // set by the driver.
 
