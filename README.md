@@ -13,6 +13,16 @@ Status
 
 Extremely alpha, most of the code is not there.
 
+Tech
+----
+
+We will (or do) make use of, and give thanks for:
+
+  * XStream XML parsing
+  * Gutenberg's own catalog
+  * Apache Lucene for fast, full-text searching
+  * JUnit
+
 Building
 --------
 
