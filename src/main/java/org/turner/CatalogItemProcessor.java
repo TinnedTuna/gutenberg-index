@@ -2,13 +2,13 @@ package org.turner;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.turner.model.catalog.Item;
+import org.turner.xml.ItemContentHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -61,63 +61,7 @@ public class CatalogItemProcessor implements Runnable {
 
   private Item parseXmlStreamToCatalogItem(InputStream fileInputStream) throws SAXException, IOException {
     XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-    xmlReader.setContentHandler(new ContentHandler() {
-
-      @Override
-      public void setDocumentLocator(Locator arg0) {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void startDocument() throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void endDocument() throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void startPrefixMapping(String arg0, String arg1) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void endPrefixMapping(String arg0) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
-        
-      }
-
-      @Override
-      public void endElement(String arg0, String arg1, String arg2) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void ignorableWhitespace(char[] arg0, int arg1, int arg2) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void processingInstruction(String arg0, String arg1) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-
-      @Override
-      public void skippedEntity(String arg0) throws SAXException {
-        throw new UnsupportedOperationException("Not supported yet.");
-      }
-    });
+    xmlReader.setContentHandler(new ItemContentHandler());
     xmlReader.parse(new InputSource(fileInputStream));
     return new Item();
   }
