@@ -18,7 +18,8 @@ public class ItemContentHandler implements ContentHandler {
 
   private enum ItemContentHandlerParseState {
     UNKNOWN,
-    DCTITLE
+    DCTITLE,
+    PGNAME
   }
   
   Item itemResult;
@@ -50,6 +51,10 @@ public class ItemContentHandler implements ContentHandler {
     if ("dcterms:title".equals(arg2)) {
       parseState = ItemContentHandlerParseState.DCTITLE;
       stringBuilder = new StringBuilder();
+    } 
+    if ("pgterms:name".equals(arg2)) {
+      parseState = ItemContentHandlerParseState.PGNAME;
+      stringBuilder = new StringBuilder();
     }
   }
 
@@ -61,14 +66,24 @@ public class ItemContentHandler implements ContentHandler {
       }
       itemResult.getTitle().add(stringBuilder.toString());
     }
+    if (ItemContentHandlerParseState.PGNAME.equals(parseState)) {
+      if (itemResult.getAuthors() == null) {
+        itemResult.setAuthors(new ArrayList<String>());
+      }
+      itemResult.getAuthors().add(stringBuilder.toString());
+    }
     if ("dcterms:title".equals(arg2)) {
+      parseState = ItemContentHandlerParseState.UNKNOWN;
+    }
+    if ("pgterms:name".equals(arg2)) {
       parseState = ItemContentHandlerParseState.UNKNOWN;
     }
   }
 
   @Override
   public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
-    if (ItemContentHandlerParseState.DCTITLE.equals(parseState)) {
+    if (ItemContentHandlerParseState.DCTITLE.equals(parseState) ||
+            ItemContentHandlerParseState.PGNAME.equals(parseState)) {
       stringBuilder.append(Arrays.copyOfRange(arg0, arg1, arg1+arg2));
     }
   }
