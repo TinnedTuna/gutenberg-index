@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.turner.model.catalog.Item;
 
  
@@ -18,6 +20,8 @@ import org.turner.model.catalog.Item;
  */
 @RunWith(JUnit4.class)
 public class CatalogItemProcessorTest {
+  
+  private static final Logger logger = LoggerFactory.getLogger(CatalogItemProcessorTest.class);
   
   @Test
   public void basicTest() {
@@ -33,7 +37,7 @@ public class CatalogItemProcessorTest {
   }
   
   @Test
-  public void moreThoroughTest() {
+  public void singleTitleTest() {
     File pg1File = new File("src/test/resources/org/turner/pg1.rdf");
     Queue<Item> itemsQueue = new LinkedList<>();
     CatalogItemProcessor catalogItemProcessor = new CatalogItemProcessor(itemsQueue, pg1File, "http://mirror.ac.uk/");
@@ -43,6 +47,7 @@ public class CatalogItemProcessorTest {
     Assert.assertNotNull(parsed);
     Assert.assertEquals(Integer.valueOf(1), parsed.getCatalogId());
     Assert.assertNotNull(parsed.getTitle());
+    logger.info(parsed.getTitle().toString());
     Assert.assertEquals(Integer.valueOf(1), Integer.valueOf(parsed.getTitle().size()));
   }
   

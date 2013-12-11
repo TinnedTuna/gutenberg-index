@@ -1,5 +1,7 @@
 package org.turner.xml;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.turner.model.catalog.Item;
@@ -14,9 +16,15 @@ import org.xml.sax.SAXException;
  */
 public class ItemContentHandler implements ContentHandler {
 
-  private static final Logger logger = LoggerFactory.getLogger(ItemContentHandler.class);
+  private enum ItemContentHandlerParseState {
+    UNKNOWN,
+    DCTITLE
+  }
+  
   Item itemResult;
-
+  ItemContentHandlerParseState parseState = ItemContentHandlerParseState.UNKNOWN;
+  StringBuilder stringBuilder = new StringBuilder();
+  
   public ItemContentHandler(Item itemResult) {
     this.itemResult = itemResult;
   }
@@ -39,29 +47,39 @@ public class ItemContentHandler implements ContentHandler {
   @Override
   public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
     assert itemResult != null;
-    logger.info("Start Element seen: {} {} {}", arg0, arg1, arg2);
+    if ("dcterms:title".equals(arg2)) {
+      parseState = ItemContentHandlerParseState.DCTITLE;
+      stringBuilder = new StringBuilder();
+    }
   }
 
   @Override
   public void endElement(String arg0, String arg1, String arg2) throws SAXException {
+    if (ItemContentHandlerParseState.DCTITLE.equals(parseState)) {
+      if (itemResult.getTitle() == null) {
+        itemResult.setTitle(new ArrayList<String>());
+      }
+      itemResult.getTitle().add(stringBuilder.toString());
+    }
+    if ("dcterms:title".equals(arg2)) {
+      parseState = ItemContentHandlerParseState.UNKNOWN;
+    }
   }
 
   @Override
   public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+    if (ItemContentHandlerParseState.DCTITLE.equals(parseState)) {
+      stringBuilder.append(Arrays.copyOfRange(arg0, arg1, arg1+arg2));
+    }
   }
 
   @Override
-  public void ignorableWhitespace(char[] arg0, int arg1, int arg2) throws SAXException {
-  }
+  public void ignorableWhitespace(char[] arg0, int arg1, int arg2) throws SAXException {  }
 
   @Override
-  public void processingInstruction(String arg0, String arg1) throws SAXException {
-  }
+  public void processingInstruction(String arg0, String arg1) throws SAXException {  }
 
   @Override
-  public void skippedEntity(String arg0) throws SAXException {
-  }
-  
-  
+  public void skippedEntity(String arg0) throws SAXException {  }
   
 }
