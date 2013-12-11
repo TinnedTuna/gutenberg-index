@@ -48,7 +48,24 @@ public class CatalogItemProcessorTest {
     Assert.assertEquals(Integer.valueOf(1), parsed.getCatalogId());
     Assert.assertNotNull(parsed.getTitle());
     logger.info(parsed.getTitle().toString());
-    Assert.assertEquals(Integer.valueOf(1), Integer.valueOf(parsed.getTitle().size()));
+    Assert.assertEquals(1, parsed.getTitle().size());
+    Assert.assertEquals("United States Declaration of Independence", parsed.getTitle().get(0));
+  }
+  
+    @Test
+  public void singleAuthorTest() {
+    File pg1File = new File("src/test/resources/org/turner/pg1140.rdf");
+    Queue<Item> itemsQueue = new LinkedList<>();
+    CatalogItemProcessor catalogItemProcessor = new CatalogItemProcessor(itemsQueue, pg1File, "http://mirror.ac.uk/");
+    catalogItemProcessor.run();
+    Assert.assertEquals(1, itemsQueue.size());
+    Item parsed = itemsQueue.remove();
+    Assert.assertNotNull(parsed);
+    Assert.assertEquals(Integer.valueOf(1140), parsed.getCatalogId());
+    Assert.assertNotNull(parsed.getAuthors());
+    logger.info(parsed.getAuthors().toString());
+    Assert.assertEquals(1, parsed.getAuthors().size());
+    Assert.assertEquals("Carlyle, Thomas", parsed.getAuthors().get(0));
   }
   
   

@@ -12,15 +12,15 @@ public class Item {
   
   private List<String> title; // Retrieved from xml catalog files.
 
-  private List<Author> author; // Retrieved from xml cataolog files.
+  private List<String> authors; // Retrieved from xml cataolog files.
   private String mirrorUrl; // set by the driver.
 
-  public List<Author> getAuthor() {
-    return author;
+  public List<String> getAuthors() {
+    return authors;
   }
 
-  public void setAuthor(List<Author> author) {
-    this.author = author;
+  public void setAuthors(List<String> authors) {
+    this.authors = authors;
   }
 
   public Integer getCatalogId() {
