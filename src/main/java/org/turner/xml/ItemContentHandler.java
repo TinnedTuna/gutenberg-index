@@ -16,35 +16,30 @@ public class ItemContentHandler implements ContentHandler {
 
   private static final Logger logger = LoggerFactory.getLogger(ItemContentHandler.class);
   Item itemResult;
+
+  public ItemContentHandler(Item itemResult) {
+    this.itemResult = itemResult;
+  }
   
   @Override
-  public void setDocumentLocator(Locator arg0) {
-    
-  }
+  public void setDocumentLocator(Locator arg0) {  }
 
   @Override
-  public void startDocument() throws SAXException {
-    itemResult = new Item();
-  }
+  public void startDocument() throws SAXException {  }
 
   @Override
-  public void endDocument() throws SAXException {
-    
-  }
+  public void endDocument() throws SAXException {  }
 
   @Override
-  public void startPrefixMapping(String arg0, String arg1) throws SAXException {
-    
-  }
+  public void startPrefixMapping(String arg0, String arg1) throws SAXException {  }
 
   @Override
-  public void endPrefixMapping(String arg0) throws SAXException {
-    
-  }
+  public void endPrefixMapping(String arg0) throws SAXException {  }
 
   @Override
   public void startElement(String arg0, String arg1, String arg2, Attributes arg3) throws SAXException {
-    logger.debug("Start Element seen: {} {} {}", arg0, arg1, arg2);
+    assert itemResult != null;
+    logger.info("Start Element seen: {} {} {}", arg0, arg1, arg2);
   }
 
   @Override

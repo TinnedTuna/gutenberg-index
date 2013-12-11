@@ -61,9 +61,10 @@ public class CatalogItemProcessor implements Runnable {
 
   private Item parseXmlStreamToCatalogItem(InputStream fileInputStream) throws SAXException, IOException {
     XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-    xmlReader.setContentHandler(new ItemContentHandler());
+    Item parsed = new Item();
+    xmlReader.setContentHandler(new ItemContentHandler(parsed));
     xmlReader.parse(new InputSource(fileInputStream));
-    return new Item();
+    return parsed;
   }
   
   
