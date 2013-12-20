@@ -26,10 +26,16 @@ public class ItemToBookConvertor {
   
   private static final Logger logger = LoggerFactory.getLogger(ItemToBookConvertor.class);
   
+  private URLConnectionFactory urlConnectionFactory;
 
+  public ItemToBookConvertor(URLConnectionFactory urlConnectionFactory) {
+    this.urlConnectionFactory = urlConnectionFactory;
+  }
+  
   public Book convertToBook(Item itemToProcess) throws MalformedURLException, IOException {
     URL url = new URL(getFullUrlString(itemToProcess));
-    URLConnection connection = url.openConnection();
+    
+    URLConnection connection = connection = getURLConnectionFactory().getURLConnection(url);
     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName(connection.getContentEncoding())));
     StringBuilder stringBuilder = new StringBuilder(connection.getContentLength());
     String line;
@@ -45,5 +51,10 @@ public class ItemToBookConvertor {
   
   private String getFullUrlString(Item itemToProcess) {
     throw new UnsupportedOperationException("Not yet implemented");
+  }
+  
+  private URLConnectionFactory getURLConnectionFactory() {
+    assert urlConnectionFactory != null;
+    return urlConnectionFactory;
   }
 }

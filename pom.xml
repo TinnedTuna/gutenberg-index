@@ -28,6 +28,16 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.5</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>4.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-common</artifactId>
+      <version>4.6.0</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

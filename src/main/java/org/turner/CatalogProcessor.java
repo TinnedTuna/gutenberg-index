@@ -15,6 +15,7 @@ public class CatalogProcessor {
   private MirrorStrategy mirrorStrategy;
   private final ExecutorService pool;
   private BlockingQueue<Book> indexQueue;
+  private URLConnectionFactory urlConnectionFactory;
 
   public CatalogProcessor(
           File catalogDirectory,
@@ -28,7 +29,8 @@ public class CatalogProcessor {
   public void processCatalog() {
     for (File catalogFile : getCatalogDirectory().listFiles()) {
       getPool().submit(new CatalogItemProcessor(
-              getIndexQueue(), 
+              getIndexQueue(),
+              getUrlConnectionFactory(),
               catalogFile,
               mirrorStrategy.getMirrorUrl()));
     }
@@ -47,6 +49,11 @@ public class CatalogProcessor {
   public File getCatalogDirectory() {
     assert catalogDirectory != null;
     return catalogDirectory;
+  }
+
+  public URLConnectionFactory getUrlConnectionFactory() {
+    assert urlConnectionFactory != null;
+    return urlConnectionFactory;
   }
   
 }

@@ -21,20 +21,23 @@ public class CatalogItemProcessor implements Runnable {
   private BlockingQueue<Book> indexingQueue;
   private String mirrorUrl;
   private File inputCatalogFile;
+  private URLConnectionFactory urlConnectionFactory;
 
   public CatalogItemProcessor(
           BlockingQueue<Book> indexingQueue, 
+          URLConnectionFactory urlConnectionFactory,
           File inputCatalogFile,
           String mirrorUrl) {
     this.indexingQueue = indexingQueue;
     this.inputCatalogFile = inputCatalogFile;
     this.mirrorUrl = mirrorUrl;
+    this.urlConnectionFactory = urlConnectionFactory;
   }
   
   public void run() {
     try {
       CatalogItemParser parser = new CatalogItemParser();
-      ItemToBookConvertor convertor = new ItemToBookConvertor();
+      ItemToBookConvertor convertor = new ItemToBookConvertor(urlConnectionFactory);
       Item parsedItem = parser.parse(inputCatalogFile);
       parsedItem.setMirrorUrl(mirrorUrl);
       Book convertedToBook = convertor.convertToBook(parsedItem);
