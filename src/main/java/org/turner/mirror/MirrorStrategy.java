@@ -1,4 +1,4 @@
-package org.turner;
+package org.turner.mirror;
 
 /**
  * Encapsulates a mirror URL delivery pattern. This could be a single fixed 

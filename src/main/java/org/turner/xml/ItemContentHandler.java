@@ -2,8 +2,6 @@ package org.turner.xml;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.turner.model.catalog.Item;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;

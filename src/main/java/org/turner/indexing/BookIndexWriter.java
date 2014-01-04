@@ -33,19 +33,17 @@ public class BookIndexWriter implements Runnable {
   public void run() {
     try {
       initialiseIndexWriter();
+      processQueue();
     } catch (IOException e) {
       logger.error("Cannot open index for writing, shutting down BookIndexer", e);
-      return;
-    }
-    try {
-      processQueue();
     } catch (InterruptedException e) {
       logger.error("BookIndexWriter shutting down.");
     }
   }
 
-  public void processQueue() throws InterruptedException {
+  private void processQueue() throws InterruptedException {
     Book inputBook;
+    // bookQueue.take() is blocking until a book is placed on the queue.
     while ((inputBook = bookQueue.take()) != null) {
       indexBook(inputBook);
     }
@@ -72,7 +70,7 @@ public class BookIndexWriter implements Runnable {
     }
   }
 
-  public void initialiseIndexWriter() throws IOException {
+  private void initialiseIndexWriter() throws IOException {
     FSDirectory fsDirectory = new SimpleFSDirectory(configDAO.getIndexDirectory());
     indexWriter = new IndexWriter(fsDirectory, new IndexWriterConfig(Version.LUCENE_46, new StandardAnalyzer(Version.LUCENE_46)));
   }

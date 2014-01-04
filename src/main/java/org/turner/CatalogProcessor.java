@@ -1,5 +1,6 @@
 package org.turner;
 
+import org.turner.mirror.MirrorStrategy;
 import java.io.File;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
